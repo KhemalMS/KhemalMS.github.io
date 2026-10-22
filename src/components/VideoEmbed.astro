@@ -1,0 +1,43 @@
+---
+interface Props {
+  /** URL YouTube (watch, youtu.be, atau /embed). */
+  url: string;
+  title: string;
+  poster?: string;
+}
+
+const { url, title, poster } = Astro.props;
+
+// Normalisasi ke embed ID; kalau bukan YouTube, render <video> biasa.
+const ytId = (() => {
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('youtu.be')) return u.pathname.slice(1) || null;
+    if (u.pathname.startsWith('/embed/')) return u.pathname.replace('/embed/', '') || null;
+    if (u.hostname.includes('youtube.com')) return u.searchParams.get('v');
+    return null;
+  } catch {
+    return null;
+  }
+})();
+---
+
+<div class="overflow-hidden rounded-2xl border border-line bg-coffee-950 shadow-card">
+  {
+    ytId ? (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        class="aspect-video size-full"
+      />
+    ) : (
+      <video controls preload="metadata" class="aspect-video size-full" poster={poster}>
+        <source src={url} />
+        <track kind="captions" />
+      </video>
+    )
+  }
+</div>

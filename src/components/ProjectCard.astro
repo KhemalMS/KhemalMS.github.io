@@ -1,0 +1,104 @@
+---
+import { ui } from '../i18n/ui';
+import { localizePath, type Locale } from '../i18n/utils';
+
+export interface ProjectSummary {
+  slug: string;
+  title: string;
+  tagline: string;
+  category: string;
+  status: 'open-source' | 'private' | 'in-development';
+  stack: string[];
+  year: string;
+  cover?: { src: string; alt: string };
+}
+
+interface Props {
+  locale: Locale;
+  project: ProjectSummary;
+  /** `true` untuk kartu besar di baris pertama. */
+  featured?: boolean;
+}
+
+const { locale, project, featured = false } = Astro.props;
+const t = ui[locale];
+const href = localizePath(`/projects/${project.slug}/`, locale);
+
+const statusStyle: Record<Props['project']['status'], string> = {
+  'open-source': 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
+  private: 'border-line bg-surface text-fg-muted',
+  'in-development': 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300',
+};
+---
+
+<article
+  class:list={[
+    'group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lift motion-reduce:hover:translate-y-0',
+    featured && 'md:col-span-2',
+  ]}
+>
+  <a href={href} class="absolute inset-0 z-10" aria-label={`${project.title} — ${project.tagline}`}></a>
+
+  <div
+    class:list={[
+      'relative overflow-hidden border-b border-line bg-coffee-100 dark:bg-coffee-950',
+      featured ? 'aspect-[16/9]' : 'aspect-[16/10]',
+    ]}
+  >
+    {
+      project.cover ? (
+        <img
+          src={project.cover.src}
+          alt={project.cover.alt}
+          width={featured ? 1280 : 880}
+          height={featured ? 720 : 550}
+          loading="lazy"
+          decoding="async"
+          class="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:group-hover:scale-100"
+        />
+      ) : (
+        <div class="flex size-full items-center justify-center">
+          <span class="text-4xl font-bold tracking-tight text-coffee-400/60 dark:text-coffee-700">
+            {project.title
+              .split(/\s+/)
+              .slice(0, 2)
+              .map((w) => w[0])
+              .join('')}
+          </span>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-3 p-5 sm:p-6">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <span class="font-semibold tracking-wide text-accent uppercase">{project.category}</span>
+      <span class="text-line" aria-hidden="true">|</span>
+      <span class="text-fg-muted">{project.year}</span>
+      <span
+        class:list={[
+          'ml-auto rounded-full border px-2 py-0.5 text-[0.7rem] font-semibold',
+          statusStyle[project.status],
+        ]}
+      >
+        {t.statusLabels[project.status]}
+      </span>
+    </div>
+
+    <h3 class:list={['font-semibold tracking-tight', featured ? 'text-xl sm:text-2xl' : 'text-lg']}>
+      {project.title}
+    </h3>
+
+    <p class="text-sm leading-relaxed text-fg-muted">{project.tagline}</p>
+
+    <ul class="mt-auto flex flex-wrap gap-1.5 pt-2" aria-label={t.projectPage.stack}>
+      {
+        project.stack.slice(0, 6).map((s) => (
+          <li class="rounded-full border border-line px-2.5 py-0.5 text-[0.7rem] font-medium text-fg-muted">
+            {s}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>

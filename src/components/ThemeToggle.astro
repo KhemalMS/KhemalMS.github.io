@@ -1,0 +1,76 @@
+---
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="inline-flex size-9 items-center justify-center rounded-full border border-line text-fg-muted transition-colors hover:border-accent hover:text-fg"
+  aria-label={t.theme.toggle}
+  aria-pressed="false"
+  data-label-light={t.theme.light}
+  data-label-dark={t.theme.dark}
+>
+  <svg
+    class="size-4 dark:hidden"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+  <svg
+    class="hidden size-4 dark:block"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<script>
+  (() => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const sync = () => {
+      const dark = root.classList.contains('dark');
+      btn.setAttribute('aria-pressed', String(dark));
+      btn.setAttribute(
+        'data-mode',
+        dark ? btn.dataset.labelDark ?? 'dark' : btn.dataset.labelLight ?? 'light',
+      );
+    };
+    sync();
+    btn.addEventListener('click', () => {
+      const dark = !root.classList.contains('dark');
+      root.classList.toggle('dark', dark);
+      try {
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      } catch {
+        /* storage diblokir — tema tetap berlaku untuk sesi ini */
+      }
+      sync();
+    });
+  })();
+</script>

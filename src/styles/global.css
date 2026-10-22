@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Palet diselaraskan dengan sistem desain aplikasi Kasir-AI
+ * (apps/backoffice/app/globals.css, token "Coffee & Cream").
+ * Satu sumber warna untuk portfolio dan produk = brand konsisten.
+ */
+@theme {
+  --color-coffee-50: #fdf8f5;
+  --color-coffee-100: #f8ece5;
+  --color-coffee-200: #eed6c8;
+  --color-coffee-300: #e1bca7;
+  --color-coffee-400: #d09a7e;
+  --color-coffee-500: #c27d5d;
+  --color-coffee-600: #b46347;
+  --color-coffee-700: #964d38;
+  --color-coffee-800: #7a4131;
+  --color-coffee-900: #62362b;
+  --color-coffee-950: #341a13;
+  --color-cream: #fdfbf7;
+
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas,
+    monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #fdfbf7;
+  --bg-subtle: #fdf8f5;
+  --surface: #ffffff;
+  --fg: #341a13;
+  --fg-muted: #7a4131;
+  --border: #eed6c8;
+  --accent: #7a4131;
+  --accent-fg: #ffffff;
+  --ring: #c27d5d;
+  --shadow-card: 0 1px 2px rgb(52 26 19 / 0.04), 0 8px 24px -12px rgb(52 26 19 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(52 26 19 / 0.05), 0 16px 40px -16px rgb(52 26 19 / 0.22);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #1a0d09;
+  --bg-subtle: #1f100b;
+  --surface: #2a1410;
+  --fg: #fdfbf7;
+  --fg-muted: #e1bca7;
+  --border: #4a271d;
+  --accent: #d09a7e;
+  --accent-fg: #1a0d09;
+  --ring: #d09a7e;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 16px 40px -16px rgb(0 0 0 / 0.7);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-ring: var(--ring);
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    font-weight: 700;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Blok kode mengikuti token tema, bukan tema bawaan Shiki. */
+  .astro-code,
+  pre {
+    background-color: var(--bg-subtle) !important;
+    color: var(--fg) !important;
+    border: 1px solid var(--border);
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100px;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: top 0.15s ease;
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

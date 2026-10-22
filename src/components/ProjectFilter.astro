@@ -1,0 +1,90 @@
+---
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+
+const filters = [
+  { key: 'all', label: t.projectsSection.filterAll },
+  { key: 'open-source', label: t.projectsSection.filterOpen },
+  { key: 'private', label: t.projectsSection.filterPrivate },
+  { key: 'in-development', label: t.projectsSection.filterWip },
+];
+---
+
+<div
+  class="flex flex-wrap gap-2"
+  role="group"
+  aria-label={t.projectsSection.title}
+  data-project-filter
+>
+  {
+    filters.map((f, i) => (
+      <button
+        type="button"
+        class:list={[
+          'rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors',
+          i === 0
+            ? 'border-accent bg-accent text-accent-fg'
+            : 'border-line bg-surface text-fg-muted hover:border-accent hover:text-fg',
+        ]}
+        data-filter={f.key}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        {f.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  (() => {
+    const root = document.querySelector<HTMLElement>('[data-project-filter]');
+    if (!root) return;
+    const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+    if (!grid) return;
+
+    const empty = document.querySelector<HTMLElement>('[data-project-empty]');
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('button[data-filter]'));
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-status]'));
+
+    const apply = (key: string) => {
+      let shown = 0;
+      for (const card of cards) {
+        const match = key === 'all' || card.dataset.status === key;
+        card.hidden = !match;
+        if (match) shown++;
+      }
+      if (empty) empty.hidden = shown > 0;
+
+      for (const btn of buttons) {
+        const active = btn.dataset.filter === key;
+        btn.setAttribute('aria-pressed', String(active));
+        btn.classList.toggle('border-accent', active);
+        btn.classList.toggle('bg-accent', active);
+        btn.classList.toggle('text-accent-fg', active);
+        btn.classList.toggle('border-line', !active);
+        btn.classList.toggle('bg-surface', !active);
+        btn.classList.toggle('text-fg-muted', !active);
+      }
+
+      const url = new URL(window.location.href);
+      if (key === 'all') url.searchParams.delete('filter');
+      else url.searchParams.set('filter', key);
+      history.replaceState(null, '', url);
+    };
+
+    root.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+      if (btn) apply(btn.dataset.filter ?? 'all');
+    });
+
+    const initial = new URLSearchParams(window.location.search).get('filter');
+    if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
+  })();
+</script>

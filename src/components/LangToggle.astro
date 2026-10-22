@@ -1,0 +1,40 @@
+---
+import { ui } from '../i18n/ui';
+import { localeNames, otherLocale, localizePath, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const next = otherLocale(locale);
+const href = localizePath(Astro.url.pathname, next);
+const label = `${localeNames[next]}`;
+---
+
+<a
+  href={href}
+  class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold tracking-wide text-fg-muted transition-colors hover:border-accent hover:text-fg"
+  hreflang={next}
+  lang={next}
+  aria-label={`${t.language.switchTo} (${label})`}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-3.5"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M2 12h20"></path>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>
+  <span aria-hidden="true">{t.language.label}</span>
+  <span class="text-fg">{next.toUpperCase()}</span>
+</a>

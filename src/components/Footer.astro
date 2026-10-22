@@ -1,0 +1,25 @@
+---
+import { ui } from '../i18n/ui';
+import { site } from '../data/site';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-bg-subtle py-10">
+  <div class="container-page flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
+    <p class="text-xs text-fg-muted">
+      &copy; {year} {site.name}. {t.footer.rights}
+    </p>
+    <div class="flex items-center gap-4 text-xs text-fg-muted">
+      <span>{t.footer.builtWith}</span>
+      <a href="#main" class="font-medium transition-colors hover:text-fg">{t.footer.backToTop}</a>
+    </div>
+  </div>
+</footer>

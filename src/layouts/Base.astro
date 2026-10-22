@@ -1,0 +1,145 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { getLocaleFromPath, localizePath, type Locale } from '../i18n/utils';
+import { ui } from '../i18n/ui';
+import { site, personFacts } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path gambar OG absolut-relatif, default `/og.png`. */
+  ogImage?: string;
+  /** `article` untuk halaman detail proyek. */
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og.png',
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const locale: Locale = getLocaleFromPath(pathname);
+const t = ui[locale];
+const altLocale = locale === 'id' ? 'en' : 'id';
+const altPath = localizePath(pathname, altLocale);
+
+const fullTitle = title
+  ? `${title} — ${site.name}`
+  : `${site.name} — ${t.hero.roles[0]}`;
+
+const desc =
+  description ??
+  (locale === 'id'
+    ? 'Full-stack developer dari Batam. Membangun sistem kasir, inventaris aset, dan dashboard operasional dengan Next.js, NestJS, dan Flutter.'
+    : 'Full-stack developer from Batam. Building point-of-sale, asset inventory, and operational dashboards with Next.js, NestJS, and Flutter.');
+
+const siteUrl = Astro.site ?? new URL(site.url);
+const canonical = new URL(pathname, siteUrl).href;
+const ogAbsolute = new URL(ogImage, siteUrl).href;
+const altAbsolute = new URL(altPath, siteUrl).href;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: new URL(localizePath('/', locale), siteUrl).href,
+  image: new URL('/photo.jpg', siteUrl).href,
+  jobTitle: personFacts.jobTitle,
+  email: `mailto:${site.email}`,
+  sameAs: [site.github, site.linkedin],
+  alumniOf: { '@type': 'CollegeOrUniversity', name: personFacts.alumniOf },
+  knowsAbout: personFacts.knowsAbout,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Batam',
+    addressRegion: 'Kepulauan Riau',
+    addressCountry: 'ID',
+  },
+};
+---
+
+<!doctype html>
+<html lang={locale} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="id" href={new URL(localizePath(pathname, 'id'), siteUrl).href} />
+    <link rel="alternate" hreflang="en" href={new URL(localizePath(pathname, 'en'), siteUrl).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizePath(pathname, 'id'), siteUrl).href} />
+    <link rel="alternate" type="text/markdown" href={altAbsolute} hreflang={altLocale} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} — ${personFacts.jobTitle}`} />
+    <meta property="og:locale" content={locale === 'id' ? 'id_ID' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'id' ? 'en_US' : 'id_ID'} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogAbsolute} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <link
+      rel="preload"
+      href="/fonts/inter-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta name="theme-color" content="#fdfbf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a0d09" media="(prefers-color-scheme: dark)" />
+
+    <script is:inline>
+      // Anti-FOUC: terapkan tema sebelum paint pertama.
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const dark = stored ? stored === 'dark' : system;
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (_) {
+          /* localStorage diblokir — biarkan tema terang */
+        }
+      })();
+    </script>
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personLd)}
+    />
+
+    <ClientRouter />
+  </head>
+
+  <body class="min-h-dvh bg-bg text-fg antialiased">
+    <a class="skip-link" href="#main">{locale === 'id' ? 'Lewati ke konten' : 'Skip to content'}</a>
+    <slot />
+  </body>
+</html>

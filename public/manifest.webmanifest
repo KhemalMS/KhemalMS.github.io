@@ -1,0 +1,12 @@
+{
+  "name": "Khemal Muhammad Sofian — Portfolio",
+  "short_name": "Khemal",
+  "description": "Full-stack developer from Batam. Point-of-sale, asset inventory, and operational dashboards.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdfbf7",
+  "theme_color": "#7a4131",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

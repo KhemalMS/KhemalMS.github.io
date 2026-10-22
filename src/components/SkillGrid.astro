@@ -1,0 +1,43 @@
+---
+import { ui } from '../i18n/ui';
+import { skillGroups } from '../data/site';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<section id="skills" class="border-t border-line py-16 md:py-24">
+  <div class="container-page">
+    <p class="text-xs font-semibold tracking-widest text-accent uppercase">
+      {t.skillsSection.eyebrow}
+    </p>
+    <h2 class="mt-3 text-2xl font-bold sm:text-3xl">{t.skillsSection.title}</h2>
+    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-fg-muted">
+      {t.skillsSection.subtitle}
+    </p>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        skillGroups.map((group) => (
+          <div class="rounded-2xl border border-line bg-surface p-5 shadow-card">
+            <h3 class="text-xs font-semibold tracking-widest text-fg-muted uppercase">
+              {t.skillsSection.groups[group.key]}
+            </h3>
+            <ul class="mt-4 flex flex-wrap gap-1.5">
+              {group.items.map((item) => (
+                <li class="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-fg">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

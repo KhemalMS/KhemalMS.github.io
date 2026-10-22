@@ -1,0 +1,49 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import ProjectFilter from '../../../components/ProjectFilter.astro';
+import { ui } from '../../../i18n/ui';
+import { getProjects, toSummary } from '../../../lib/projects';
+
+const locale = 'en' as const;
+const t = ui[locale];
+const projects = await getProjects(locale);
+---
+
+<Base title={t.projectsSection.title} description={t.projectsSection.subtitle}>
+  <Nav locale={locale} />
+
+  <main id="main" class="py-12 md:py-20">
+    <div class="container-page">
+      <p class="text-xs font-semibold tracking-widest text-accent uppercase">
+        {t.projectsSection.eyebrow}
+      </p>
+      <h1 class="mt-3 text-3xl font-bold sm:text-4xl">{t.projectsSection.title}</h1>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-fg-muted">
+        {t.projectsSection.subtitle}
+      </p>
+
+      <div class="mt-8">
+        <ProjectFilter locale={locale} />
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2" data-project-grid>
+        {
+          projects.map((p) => (
+            <div data-status={p.data.status}>
+              <ProjectCard locale={locale} project={toSummary(p)} />
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="mt-8 text-sm text-fg-muted" data-project-empty hidden>
+        {t.projectsSection.empty}
+      </p>
+    </div>
+  </main>
+
+  <Footer locale={locale} />
+</Base>
