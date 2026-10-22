@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://khemalms.github.io/sitemap-index.xml
+Sitemap: https://tosan.my.id/sitemap-index.xml

@@ -1,0 +1,60 @@
+---
+import { ui } from '../i18n/ui';
+import { localizePath, type Locale } from '../i18n/utils';
+import { getProjects } from '../lib/projects';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const projects = await getProjects(locale);
+
+const dot: Record<string, string> = {
+  'open-source': 'bg-emerald-500',
+  private: 'bg-slate-400',
+  'in-development': 'bg-amber-500',
+};
+---
+
+<section class="border-t border-line bg-bg-subtle py-16 md:py-24">
+  <div class="container-page">
+    <p class="text-xs font-semibold tracking-widest text-accent uppercase">
+      {t.timelineSection.eyebrow}
+    </p>
+    <h2 class="mt-3 text-2xl font-bold sm:text-3xl">{t.timelineSection.title}</h2>
+    <p class="mt-3 max-w-xl text-sm leading-relaxed text-fg-muted">
+      {t.timelineSection.subtitle}
+    </p>
+
+    <ol class="mt-10 space-y-0 border-l border-line pl-6">
+      {
+        projects.map((p) => (
+          <li class="relative pb-8 last:pb-0">
+            <span
+              class:list={[
+                'absolute -left-[1.6875rem] top-1.5 size-2.5 rounded-full ring-4 ring-bg-subtle',
+                dot[p.data.status],
+              ]}
+              aria-hidden="true"
+            />
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <a
+                href={localizePath(`/projects/${p.id.replace(/^(id|en)\//, '')}/`, locale)}
+                class="font-semibold tracking-tight text-fg transition-colors hover:text-accent"
+              >
+                {p.data.title}
+              </a>
+              <span class="text-xs font-medium text-fg-muted">{p.data.year}</span>
+              <span class="rounded-full border border-line bg-surface px-2 py-0.5 text-[0.7rem] font-semibold text-fg-muted">
+                {t.statusLabels[p.data.status]}
+              </span>
+            </div>
+            <p class="mt-1 text-sm leading-relaxed text-fg-muted">{p.data.tagline}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/utils';
+import { contributions, contributionLevel } from '../data/github';
+import { site } from '../data/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const dayNames =
+  locale === 'id'
+    ? ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
+    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const levels = [0, 1, 2, 3] as const;
+---
+
+<section class="border-t border-line py-16 md:py-24">
+  <div class="container-page">
+    <p class="text-xs font-semibold tracking-widest text-accent uppercase">
+      {t.contribSection.eyebrow}
+    </p>
+    <h2 class="mt-3 text-2xl font-bold sm:text-3xl">{t.contribSection.title}</h2>
+    <p class="mt-3 max-w-xl text-sm leading-relaxed text-fg-muted">{t.contribSection.subtitle}</p>
+
+    <div class="mt-8 overflow-x-auto rounded-2xl border border-line bg-surface p-5 shadow-card">
+      <div class="flex items-center justify-between gap-4">
+        <p class="text-sm font-semibold text-fg">
+          <span class="text-accent">{contributions.total}</span>
+          <span class="ml-1.5 font-normal text-fg-muted">{t.contribSection.total}</span>
+        </p>
+        <a
+          href={`${site.github}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs font-semibold text-fg-muted transition-colors hover:text-accent"
+        >
+          @{contributions.login}
+        </a>
+      </div>
+
+      <div class="mt-4 flex justify-start gap-1" role="img" aria-label={`${contributions.total} ${t.contribSection.total}`}>
+        {
+          contributions.weeks.map((week) => (
+            <div class="flex flex-col gap-1">
+              {week.map((n, i) => (
+                <span
+                  class="contrib-cell size-3"
+                  data-level={contributionLevel(n)}
+                  title={`${n} ${t.contribSection.on} ${dayNames[i]}`}
+                />
+              ))}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-4 flex items-center gap-1.5 text-[0.7rem] text-fg-muted">
+        <span>{t.contribSection.less}</span>
+        {
+          levels.map((l) => (
+            <span class="contrib-cell size-3" data-level={l} aria-hidden="true" />
+          ))
+        }
+        <span>{t.contribSection.more}</span>
+      </div>
+    </div>
+  </div>
+</section>

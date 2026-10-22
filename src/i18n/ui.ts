@@ -14,8 +14,27 @@ export interface UiStrings {
     greeting: string;
     roles: string[];
     available: string;
+    intro: string;
     cta: string;
     ctaSecondary: string;
+  };
+  statsSection: {
+    projects: string;
+    contributions: string;
+  };
+  contribSection: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    total: string;
+    on: string;
+    less: string;
+    more: string;
+  };
+  timelineSection: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
   };
   projectsSection: {
     eyebrow: string;
@@ -115,8 +134,29 @@ const id: UiStrings = {
     greeting: 'Halo, saya',
     roles: ['Full-Stack Developer', 'Mobile Developer', 'Mahasiswa Sistem Informasi'],
     available: 'Terbuka untuk peluang',
+    intro:
+      'Membangun sistem yang dipakai harian — kasir, inventaris aset, dan dashboard operasional. Next.js, NestJS, Flutter, dan disiplin pada data yang benar.',
     cta: 'Lihat proyek',
     ctaSecondary: 'Hubungi saya',
+  },
+  statsSection: {
+    projects: 'proyek terdokumentasi',
+    contributions: 'kontribusi GitHub (12 bulan)',
+  },
+  contribSection: {
+    eyebrow: 'Aktivitas',
+    title: 'Kontribusi GitHub',
+    subtitle:
+      'Data diambil langsung dari GitHub GraphQL API, bukan gambar statis. Repositori privat tidak ikut terhitung.',
+    total: 'kontribusi dalam 12 bulan terakhir',
+    on: 'kontribusi pada',
+    less: 'Sedikit',
+    more: 'Banyak',
+  },
+  timelineSection: {
+    eyebrow: 'Linimasa',
+    title: 'Perjalanan proyek',
+    subtitle: 'Urutan pengerjaan dan status tiap sistem yang sedang atau pernah saya bangun.',
   },
   projectsSection: {
     eyebrow: 'Portofolio',
@@ -228,8 +268,29 @@ const en: UiStrings = {
     greeting: "Hello, I'm",
     roles: ['Full-Stack Developer', 'Mobile Developer', 'Information Systems Student'],
     available: 'Open to opportunities',
+    intro:
+      'Building software used every day — point of sale, asset inventory, and operational dashboards. Next.js, NestJS, Flutter, and a discipline for correct data.',
     cta: 'View projects',
     ctaSecondary: 'Get in touch',
+  },
+  statsSection: {
+    projects: 'documented projects',
+    contributions: 'GitHub contributions (12 months)',
+  },
+  contribSection: {
+    eyebrow: 'Activity',
+    title: 'GitHub Contributions',
+    subtitle:
+      'Pulled straight from the GitHub GraphQL API, not a static image. Private repository activity is excluded.',
+    total: 'contributions in the last 12 months',
+    on: 'contributions on',
+    less: 'Less',
+    more: 'More',
+  },
+  timelineSection: {
+    eyebrow: 'Timeline',
+    title: 'Project journey',
+    subtitle: 'The order and status of every system I have built or am building.',
   },
   projectsSection: {
     eyebrow: 'Portfolio',

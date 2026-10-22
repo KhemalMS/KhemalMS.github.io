@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-const SITE = 'https://khemalms.github.io';
+const SITE = 'https://tosan.my.id';
 
 // ponytail: i18n pakai routing bawaan Astro (bukan manual) supaya hreflang
 // dan /en/ redirect diurus framework. Upgrade ke manual hanya kalau butuh

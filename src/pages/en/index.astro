@@ -2,6 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Hero from '../../components/Hero.astro';
+import StatsBar from '../../components/StatsBar.astro';
+import ContributionGrid from '../../components/ContributionGrid.astro';
+import StatusTimeline from '../../components/StatusTimeline.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import SkillGrid from '../../components/SkillGrid.astro';
 import About from '../../components/About.astro';
@@ -23,6 +26,7 @@ const projectsHref = localizePath('/projects/', locale);
 
   <main id="main">
     <Hero locale={locale} />
+    <StatsBar locale={locale} />
 
     <section id="projects" class="border-t border-line py-16 md:py-24">
       <div class="container-page">
@@ -61,6 +65,8 @@ const projectsHref = localizePath('/projects/', locale);
       </div>
     </section>
 
+    <StatusTimeline locale={locale} />
+    <ContributionGrid locale={locale} />
     <About locale={locale} />
     <SkillGrid locale={locale} />
     <Contact locale={locale} />

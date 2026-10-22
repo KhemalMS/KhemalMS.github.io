@@ -11,19 +11,27 @@ const { locale } = Astro.props;
 const t = ui[locale];
 const projectsHref = localizePath('/projects/', locale);
 const contactHref = `${localizePath('/', locale)}#contact`;
+
+const whoami = [
+  `name     ${site.name}`,
+  `role     ${t.hero.roles[0]}`,
+  `location ${site.location[locale]}`,
+  `stack    Next.js · NestJS · Flutter · PostgreSQL`,
+  `status   ${t.hero.available}`,
+];
 ---
 
 <section class="relative overflow-hidden border-b border-line">
   <div
-    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(80%_60%_at_50%_-10%,var(--color-coffee-100),transparent_70%)] dark:bg-[radial-gradient(80%_60%_at_50%_-10%,rgb(74_39_29/0.7),transparent_70%)]"
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_20%_-10%,var(--color-sky-100),transparent_70%)] dark:bg-[radial-gradient(70%_60%_at_20%_-10%,rgb(3_105_161/0.35),transparent_70%)]"
     aria-hidden="true"
   >
   </div>
 
-  <div class="container-page grid gap-10 py-16 md:grid-cols-[1fr_auto] md:items-center md:gap-16 md:py-24">
+  <div class="container-page grid gap-10 py-16 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-14 md:py-24">
     <div class="max-w-2xl">
       <p
-        class="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1 text-xs font-semibold text-fg-muted"
+        class="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3 py-1 text-xs font-semibold text-fg-muted"
       >
         <span class="relative flex size-2" aria-hidden="true">
           <span
@@ -46,18 +54,12 @@ const contactHref = `${localizePath('/', locale)}#contact`;
         <span>{t.hero.roles[1]}</span>
       </p>
 
-      <p class="mt-6 max-w-prose text-base leading-relaxed text-fg-muted">
-        {
-          locale === 'id'
-            ? 'Membangun sistem yang dipakai harian — kasir, inventaris aset, dan dashboard operasional. Next.js, NestJS, Flutter, dan disiplin pada data yang benar.'
-            : 'Building software used every day — point of sale, asset inventory, and operational dashboards. Next.js, NestJS, Flutter, and a discipline for correct data.'
-        }
-      </p>
+      <p class="mt-6 max-w-prose text-base leading-relaxed text-fg-muted">{t.hero.intro}</p>
 
       <div class="mt-8 flex flex-wrap gap-3">
         <a
           href={projectsHref}
-          class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-fg shadow-card transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-fg shadow-card transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
         >
           {t.hero.cta}
           <svg
@@ -76,27 +78,43 @@ const contactHref = `${localizePath('/', locale)}#contact`;
         </a>
         <a
           href={contactHref}
-          class="inline-flex items-center rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:border-accent"
+          class="inline-flex items-center rounded-lg border border-line px-5 py-2.5 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
         >
           {t.hero.ctaSecondary}
         </a>
       </div>
     </div>
 
-    <div class="order-first justify-self-center md:order-none md:justify-self-end">
-      <div
-        class="relative size-40 rounded-full border-8 border-surface bg-coffee-200 shadow-lift sm:size-52 md:size-60"
-      >
-        <img
-          src="/photo.jpg"
-          alt={`${site.name} — ${t.hero.roles[0]}`}
-          width="480"
-          height="480"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="size-full rounded-full object-cover"
-        />
+    <div
+      class="overflow-hidden rounded-xl border border-line bg-surface shadow-lift"
+      aria-hidden="false"
+    >
+      <div class="flex items-center gap-1.5 border-b border-line bg-bg-subtle px-4 py-2.5">
+        <span class="size-2.5 rounded-full bg-red-400/70"></span>
+        <span class="size-2.5 rounded-full bg-amber-400/70"></span>
+        <span class="size-2.5 rounded-full bg-emerald-400/70"></span>
+        <span class="ml-2 font-mono text-[0.7rem] text-fg-muted">~/portfolio</span>
+      </div>
+      <div class="overflow-x-auto p-4 font-mono text-[0.8rem] leading-relaxed">
+        <p class="text-fg-muted"><span class="text-accent">$</span> whoami</p>
+        <dl class="mt-2 space-y-0.5">
+          {
+            whoami.map((line) => {
+              const [k, ...rest] = line.split(' ');
+              return (
+                <div class="flex gap-3">
+                  <dt class="w-20 shrink-0 text-fg-muted">{k}</dt>
+                  <dd class="text-fg">{rest.join(' ')}</dd>
+                </div>
+              );
+            })
+          }
+        </dl>
+        <p class="mt-3 text-fg-muted">
+          <span class="text-accent">$</span>
+          <span class="ml-1.5 inline-block h-3.5 w-1.5 animate-pulse bg-accent align-middle motion-reduce:animate-none"
+          ></span>
+        </p>
       </div>
     </div>
   </div>

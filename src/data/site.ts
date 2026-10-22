@@ -10,7 +10,7 @@ export const site = {
   githubHandle: 'KhemalMS',
   linkedin: 'https://www.linkedin.com/in/khemalms/',
   location: { id: 'Batam, Kepulauan Riau', en: 'Batam, Riau Islands' },
-  url: 'https://khemalms.github.io',
+  url: 'https://tosan.my.id',
 } as const;
 
 export interface SkillGroup {

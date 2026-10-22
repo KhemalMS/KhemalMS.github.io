@@ -1,0 +1,33 @@
+---
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/utils';
+import { contributions } from '../data/github';
+import { getProjects } from '../lib/projects';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const projects = await getProjects(locale);
+
+// Semua angka diturunkan dari data nyata, tidak ada yang dikarang.
+const stats = [
+  { value: String(projects.length), label: t.statsSection.projects },
+  { value: String(contributions.total), label: t.statsSection.contributions },
+];
+---
+
+<section class="border-b border-line bg-surface">
+  <div class="container-page grid gap-6 py-8 sm:grid-cols-2">
+    {
+      stats.map((s) => (
+        <div class="flex items-baseline gap-3">
+          <span class="text-3xl font-bold tracking-tight text-accent tabular-nums">{s.value}</span>
+          <span class="text-sm font-medium text-fg-muted">{s.label}</span>
+        </div>
+      ))
+    }
+  </div>
+</section>
