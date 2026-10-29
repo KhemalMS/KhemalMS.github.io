@@ -1,0 +1,10 @@
+# ponytail: standard dockerignore. add test mocks or docs if repo expands.
+node_modules
+dist
+.git
+.github
+.vscode
+.omop
+.astro
+npm-debug.log*
+qa-domain.mjs
