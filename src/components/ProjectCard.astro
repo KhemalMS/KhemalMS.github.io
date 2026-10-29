@@ -33,7 +33,7 @@ const statusStyle: Record<Props['project']['status'], string> = {
 
 <article
   class:list={[
-    'group relative flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lift motion-reduce:hover:translate-y-0',
+    'group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lift motion-reduce:hover:translate-y-0',
     featured && 'md:col-span-2',
   ]}
 >
@@ -68,6 +68,10 @@ const statusStyle: Record<Props['project']['status'], string> = {
         </div>
       )
     }
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      aria-hidden="true"
+    />
   </div>
 
   <div class="flex flex-1 flex-col gap-3 p-5 sm:p-6">
@@ -85,8 +89,19 @@ const statusStyle: Record<Props['project']['status'], string> = {
       </span>
     </div>
 
-    <h3 class:list={['font-semibold tracking-tight', featured ? 'text-xl sm:text-2xl' : 'text-lg']}>
-      {project.title}
+    <h3
+      class:list={[
+        'flex items-center justify-between font-semibold tracking-tight text-fg transition-colors group-hover:text-accent',
+        featured ? 'text-xl sm:text-2xl' : 'text-lg',
+      ]}
+    >
+      <span>{project.title}</span>
+      <span
+        class="text-sm font-normal text-accent opacity-0 transition-all duration-200 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"
+        aria-hidden="true"
+      >
+        →
+      </span>
     </h3>
 
     <p class="text-sm leading-relaxed text-fg-muted">{project.tagline}</p>
@@ -94,7 +109,7 @@ const statusStyle: Record<Props['project']['status'], string> = {
     <ul class="mt-auto flex flex-wrap gap-1.5 pt-2" aria-label={t.projectPage.stack}>
       {
         project.stack.slice(0, 6).map((s) => (
-          <li class="rounded-full border border-line px-2.5 py-0.5 text-[0.7rem] font-medium text-fg-muted">
+          <li class="rounded-full border border-line bg-bg-subtle/50 px-2.5 py-0.5 text-[0.7rem] font-medium text-fg-muted">
             {s}
           </li>
         ))

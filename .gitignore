@@ -7,3 +7,6 @@ npm-debug.log*
 .env.production
 .vercel
 *.cjs
+.omo/
+.omop/
+qa-domain.mjs

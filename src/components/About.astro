@@ -10,7 +10,7 @@ const { locale } = Astro.props;
 const t = ui[locale];
 ---
 
-<section id="about" class="border-t border-line bg-bg-subtle py-16 md:py-24">
+<section id="about" class="border-t border-line bg-bg-subtle py-10 md:py-14">
   <div class="container-page grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-16">
     <div>
       <p class="text-xs font-semibold tracking-widest text-accent uppercase">
@@ -22,15 +22,39 @@ const t = ui[locale];
       </div>
     </div>
 
-    <dl class="grid gap-3 self-start rounded-2xl border border-line bg-surface p-5 shadow-card">
-      {
-        t.aboutSection.facts.map((f) => (
-          <div class="flex flex-col gap-0.5 border-b border-line pb-3 last:border-0 last:pb-0">
-            <dt class="text-xs font-semibold tracking-wide text-fg-muted uppercase">{f.label}</dt>
-            <dd class="text-sm font-medium text-fg">{f.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
+    <div class="self-start rounded-2xl border border-line bg-surface p-5 shadow-card">
+      <div class="flex items-center gap-3.5 border-b border-line pb-4 mb-2">
+        <img
+          src="/photo.jpg"
+          alt="Khemal M. Sofian"
+          width="56"
+          height="56"
+          class="size-14 rounded-xl border border-sky-400 object-cover"
+        />
+        <div class="flex flex-col">
+          <span class="text-sm font-semibold text-fg">Khemal M. Sofian</span>
+          <span class="text-xs font-medium text-accent">Full-Stack Engineer</span>
+          <a
+            href="https://github.com/KhemalMS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[11px] text-fg-muted transition-colors hover:text-accent"
+          >
+            github.com/KhemalMS
+          </a>
+        </div>
+      </div>
+
+      <dl class="grid gap-3">
+        {
+          t.aboutSection.facts.map((f) => (
+            <div class="flex flex-col gap-0.5 border-b border-line pb-3 last:border-0 last:pb-0">
+              <dt class="text-xs font-semibold tracking-wide text-fg-muted uppercase">{f.label}</dt>
+              <dd class="text-sm font-medium text-fg">{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
   </div>
 </section>

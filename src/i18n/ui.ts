@@ -4,6 +4,7 @@ export interface UiStrings {
   nav: {
     home: string;
     projects: string;
+    experience: string;
     about: string;
     skills: string;
     contact: string;
@@ -124,6 +125,7 @@ const id: UiStrings = {
   nav: {
     home: 'Beranda',
     projects: 'Proyek',
+    experience: 'Pengalaman',
     about: 'Tentang',
     skills: 'Keahlian',
     contact: 'Kontak',
@@ -132,7 +134,7 @@ const id: UiStrings = {
   },
   hero: {
     greeting: 'Halo, saya',
-    roles: ['Full-Stack Developer', 'Mobile Developer', 'Mahasiswa Sistem Informasi'],
+    roles: ['Full-Stack Developer', 'Mobile Developer', 'Mahasiswa Teknik Informatika'],
     available: 'Terbuka untuk peluang',
     intro:
       'Membangun sistem yang dipakai harian — kasir, inventaris aset, dan dashboard operasional. Next.js, NestJS, Flutter, dan disiplin pada data yang benar.',
@@ -154,9 +156,9 @@ const id: UiStrings = {
     more: 'Banyak',
   },
   timelineSection: {
-    eyebrow: 'Linimasa',
-    title: 'Perjalanan proyek',
-    subtitle: 'Urutan pengerjaan dan status tiap sistem yang sedang atau pernah saya bangun.',
+    eyebrow: 'Pengalaman & Jejak',
+    title: 'Riwayat & Pendidikan',
+    subtitle: 'Perjalanan profesional, keterlibatan proyek independen, dan latar belakang akademik.',
   },
   projectsSection: {
     eyebrow: 'Portofolio',
@@ -217,7 +219,7 @@ const id: UiStrings = {
     facts: [
       { label: 'Lokasi', value: 'Batam, Kepulauan Riau' },
       { label: 'Kampus', value: 'Universitas Putera Batam' },
-      { label: 'Program studi', value: 'Sistem Informasi' },
+      { label: 'Program studi', value: 'Teknik Informatika' },
       { label: 'Fokus', value: 'Full-stack & mobile' },
     ],
   },
@@ -258,6 +260,7 @@ const en: UiStrings = {
   nav: {
     home: 'Home',
     projects: 'Projects',
+    experience: 'Experience',
     about: 'About',
     skills: 'Skills',
     contact: 'Contact',
@@ -266,7 +269,7 @@ const en: UiStrings = {
   },
   hero: {
     greeting: "Hello, I'm",
-    roles: ['Full-Stack Developer', 'Mobile Developer', 'Information Systems Student'],
+    roles: ['Full-Stack Developer', 'Mobile Developer', 'Informatics Engineering Student'],
     available: 'Open to opportunities',
     intro:
       'Building software used every day — point of sale, asset inventory, and operational dashboards. Next.js, NestJS, Flutter, and a discipline for correct data.',
@@ -288,9 +291,9 @@ const en: UiStrings = {
     more: 'More',
   },
   timelineSection: {
-    eyebrow: 'Timeline',
-    title: 'Project journey',
-    subtitle: 'The order and status of every system I have built or am building.',
+    eyebrow: 'Experience & Track',
+    title: 'Career & Education',
+    subtitle: 'Professional journey, independent project delivery, and academic background.',
   },
   projectsSection: {
     eyebrow: 'Portfolio',
@@ -351,7 +354,7 @@ const en: UiStrings = {
     facts: [
       { label: 'Location', value: 'Batam, Riau Islands' },
       { label: 'University', value: 'Universitas Putera Batam' },
-      { label: 'Major', value: 'Information Systems' },
+      { label: 'Major', value: 'Informatics Engineering' },
       { label: 'Focus', value: 'Full-stack & mobile' },
     ],
   },

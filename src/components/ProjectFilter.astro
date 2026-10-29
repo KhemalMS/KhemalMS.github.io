@@ -43,7 +43,7 @@ const filters = [
 </div>
 
 <script>
-  (() => {
+  document.addEventListener('astro:page-load', () => {
     const root = document.querySelector<HTMLElement>('[data-project-filter]');
     if (!root) return;
     const grid = document.querySelector<HTMLElement>('[data-project-grid]');
@@ -79,12 +79,12 @@ const filters = [
       history.replaceState(null, '', url);
     };
 
-    root.addEventListener('click', (e) => {
+    root.onclick = (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
       if (btn) apply(btn.dataset.filter ?? 'all');
-    });
+    };
 
     const initial = new URLSearchParams(window.location.search).get('filter');
     if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
-  })();
+  });
 </script>

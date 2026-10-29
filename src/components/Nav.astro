@@ -15,9 +15,10 @@ const projectsHref = localizePath('/projects/', locale);
 const onProjects = Astro.url.pathname.includes('/projects');
 
 const links = [
-  { href: `${home}#about`, label: t.nav.about, active: false },
   { href: projectsHref, label: t.nav.projects, active: onProjects },
+  { href: `${home}#experience`, label: t.nav.experience, active: false },
   { href: `${home}#skills`, label: t.nav.skills, active: false },
+  { href: `${home}#about`, label: t.nav.about, active: false },
   { href: `${home}#contact`, label: t.nav.contact, active: false },
 ];
 ---
@@ -95,7 +96,7 @@ const links = [
 </header>
 
 <script>
-  (() => {
+  document.addEventListener('astro:page-load', () => {
     const btn = document.getElementById('nav-toggle');
     const panel = document.getElementById('mobile-nav');
     if (!btn || !panel) return;
@@ -105,13 +106,13 @@ const links = [
       btn.setAttribute('aria-expanded', String(open));
     };
 
-    btn.addEventListener('click', () => {
+    btn.onclick = () => {
       setOpen(panel.classList.contains('hidden'));
-    });
+    };
 
-    panel.addEventListener('click', (e) => {
+    panel.onclick = (e) => {
       if ((e.target as HTMLElement).closest('a')) setOpen(false);
-    });
+    };
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
@@ -119,5 +120,5 @@ const links = [
         btn.focus();
       }
     });
-  })();
+  });
 </script>

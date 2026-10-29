@@ -81,6 +81,38 @@ export const personFacts = {
     'TypeScript',
     'PostgreSQL',
     'Docker',
-    'Information Systems',
+    'Informatics Engineering',
   ],
 };
+
+export interface CareerItem {
+  period: { id: string; en: string };
+  role: { id: string; en: string };
+  organization: string;
+  description: { id: string; en: string };
+  status: 'current' | 'completed';
+}
+
+export const careerTimeline: CareerItem[] = [
+  {
+    period: { id: '2024 — Sekarang', en: '2024 — Present' },
+    role: { id: 'Full-Stack Developer (Independent)', en: 'Full-Stack Developer (Independent)' },
+    organization: 'Client Projects & Production Systems',
+    description: {
+      id: 'Merancang dan membangun sistem kasir POS offline-first, manajemen inventaris, dan dashboard operasional real-time.',
+      en: 'Architecting and building offline-first POS systems, asset inventory, and real-time operational dashboards.'
+    },
+    status: 'current',
+  },
+  {
+    period: { id: '2021 — Sekarang', en: '2021 — Present' },
+    role: { id: 'S1 Teknik Informatika', en: 'Informatics Engineering (Undergraduate)' },
+    organization: 'Universitas Putera Batam',
+    description: {
+      id: 'Mendalami rekayasa perangkat lunak, algoritma & struktur data, arsitektur sistem komputer, dan perancangan basis data relasional.',
+      en: 'Studying software engineering, algorithms & data structures, computer systems architecture, and relational database design.'
+    },
+    status: 'current',
+  },
+];
+

@@ -49,7 +49,7 @@ const t = ui[locale];
 </button>
 
 <script>
-  (() => {
+  const initThemeToggle = () => {
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
     const root = document.documentElement;
@@ -62,7 +62,7 @@ const t = ui[locale];
       );
     };
     sync();
-    btn.addEventListener('click', () => {
+    btn.onclick = () => {
       const dark = !root.classList.contains('dark');
       root.classList.toggle('dark', dark);
       try {
@@ -71,6 +71,8 @@ const t = ui[locale];
         /* storage diblokir — tema tetap berlaku untuk sesi ini */
       }
       sync();
-    });
-  })();
+    };
+  };
+
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>

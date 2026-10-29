@@ -117,8 +117,8 @@ const personLd = {
     <meta name="theme-color" content="#1a0d09" media="(prefers-color-scheme: dark)" />
 
     <script is:inline>
-      // Anti-FOUC: terapkan tema sebelum paint pertama.
-      (() => {
+      // Anti-FOUC: terapkan tema sebelum paint pertama dan saat navigasi client-side.
+      const applyTheme = () => {
         try {
           const stored = localStorage.getItem('theme');
           const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -127,7 +127,9 @@ const personLd = {
         } catch (_) {
           /* localStorage diblokir — biarkan tema terang */
         }
-      })();
+      };
+      applyTheme();
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
 
     <script
